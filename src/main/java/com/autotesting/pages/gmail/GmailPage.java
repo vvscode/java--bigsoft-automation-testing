@@ -4,22 +4,34 @@ import com.autotesting.pages.Page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import java.util.List;
 
 public class GmailPage extends Page {
 
+    /* LOCATORS */
+    protected static By LOC_NEW_MESSAGE_BUTTON = By.cssSelector("[gh=cm]");
+    protected static By LOC_NEW_MESSAGE_WINDOW_CLOSER = By.cssSelector(".Ha");
+    protected static By LOC_NEW_MESSAGE_WINDOW = By.cssSelector("[role=dialog]");
+    protected static By LOC_MESSAGE_TO_INPUT = By.cssSelector("textarea[name=to]");
+    protected static By LOC_MESSAGE_SUBJECT_INPUT = By.cssSelector("input[name=subjectbox]");
+    protected static By LOC_MESSAGE_BODY_INPUT = By.cssSelector("div[g_editable][role=textbox]");
+    protected static By LOC_MESSAGE_SEND_BUTTON = By.cssSelector(".gU [data-tooltip]");
+    protected static By LOC_ALERT_DIALOG = By.cssSelector("[role=alertdialog]");
+    protected static By LOC_ALERT_DIALOG_OK_BUTTON = By.cssSelector("[role=alertdialog] [name=ok]");
+    protected static By LOC_MAIL_GRID_ITEM = By.cssSelector("td[id] div[role=link] span[id] b");
+    protected static By LOC_MAIL_GRID_CHECKED_ITEM = By.cssSelector("[aria-labelledby][aria-checked=true]");
+    protected static By LOC_MAIL_GRID_SELECT_ALL = By.cssSelector("[aria-label=Выбрать] [role=checkbox]");
+    protected static By LOC_MAIL_GRID_REMOVER = By.cssSelector("[aria-label=Удалить]");
+
     public GmailPage(WebDriver drv) {
         super(drv);
     }
 
-
-
     public void openNewMessageWindow() {
         if (!isNewMessageWindowExists()) {
-            List<WebElement> newMessageButton = driver.findElements(By.cssSelector("[gh=cm]"));
-            newMessageButton.get(0).click();
+            WebElement newMessageButton = driver.findElement(LOC_NEW_MESSAGE_BUTTON);
+            newMessageButton.click();
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -32,7 +44,7 @@ public class GmailPage extends Page {
     }
 
     public void closeNewMEssageWindow() {
-        driver.findElement(By.cssSelector(".Ha")).click();
+        driver.findElement(LOC_NEW_MESSAGE_WINDOW_CLOSER).click();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -42,15 +54,15 @@ public class GmailPage extends Page {
 
     public void sendNewMessage(String to, String subj, String body) {
         openNewMessageWindow();
-        WebElement mailTo = driver.findElement(By.cssSelector("textarea[name=to]"));
-        WebElement subject = driver.findElement(By.cssSelector("input[name=subjectbox]"));
-        WebElement text = driver.findElement(By.cssSelector("div[g_editable][role=textbox]"));
+        WebElement mailTo = driver.findElement(LOC_MESSAGE_TO_INPUT);
+        WebElement subject = driver.findElement(LOC_MESSAGE_SUBJECT_INPUT);
+        WebElement text = driver.findElement(LOC_MESSAGE_BODY_INPUT);
 
         mailTo.sendKeys(to);
         subject.sendKeys(subj);
         text.sendKeys(body);
 
-        driver.findElements(By.cssSelector(".gU [data-tooltip]")).get(0).click();
+        driver.findElement(LOC_MESSAGE_SEND_BUTTON).click();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -59,13 +71,13 @@ public class GmailPage extends Page {
     }
 
     public Boolean isAlertBoxExists() {
-        List<WebElement> alertDialog = driver.findElements(By.cssSelector("[role=alertdialog]"));
+        List<WebElement> alertDialog = driver.findElements(LOC_ALERT_DIALOG);
         return alertDialog.size() > 0;
     }
 
     public void closeAlert() throws InterruptedException {
         if (isAlertBoxExists()) {
-            WebElement okButton = driver.findElement(By.cssSelector("[role=alertdialog] [name=ok]"));
+            WebElement okButton = driver.findElement(LOC_ALERT_DIALOG_OK_BUTTON);
             okButton.click();
             Thread.sleep(2000);
         }
@@ -74,8 +86,7 @@ public class GmailPage extends Page {
     public Boolean isMailExists(String subj) {
         driver.navigate().refresh();
 
-        List<WebElement> mailList = driver.findElements(By.cssSelector("td[id] div[role=link] span[id] b"));
-        Assert.assertTrue(mailList.size() > 0, "No letters found");
+        List<WebElement> mailList = driver.findElements(LOC_MAIL_GRID_ITEM);
 
         Boolean mailExistsFlag = false;
         Boolean checkResult;
@@ -93,41 +104,40 @@ public class GmailPage extends Page {
     }
 
     public Integer getMailsCount() {
-        List<WebElement> mailList = driver.findElements(By.cssSelector("td[id] div[role=link] span[id] b"));
+        List<WebElement> mailList = driver.findElements(LOC_MAIL_GRID_ITEM);
         return mailList.size();
     }
 
     public Integer getCheckedMailsCount() {
-        List<WebElement> checkedMails = driver.findElements(By.cssSelector("[aria-labelledby][aria-checked=true]"));
+        List<WebElement> checkedMails = driver.findElements(LOC_MAIL_GRID_CHECKED_ITEM);
         return checkedMails.size();
     }
 
     public void selectAllMessages() {
-        List<WebElement> selector = driver.findElements(By.cssSelector("[aria-label=Выбрать] [role=checkbox]"));
-        selector.get(0).click();
+        WebElement selector = driver.findElement(LOC_MAIL_GRID_SELECT_ALL);
+        selector.click();
     }
 
     public void removeMessages() {
-        List<WebElement> remover = driver.findElements(By.cssSelector("[aria-label=Удалить]"));
-        Assert.assertTrue(remover.size() > 0, "Remove buttons wasn't found");
-        remover.get(0).click();
+        WebElement remover = driver.findElement(LOC_MAIL_GRID_REMOVER);
+        remover.click();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public Boolean isCreateMessageButtonExists(){
-        return elementExists(By.cssSelector("[gh=cm]"));
+    public Boolean isCreateMessageButtonExists() {
+        return elementExists(LOC_NEW_MESSAGE_BUTTON);
     }
 
     public Boolean isNewMessageWindowExists() {
-        return elementExists(By.cssSelector("[role=dialog]"));
+        return elementExists(LOC_NEW_MESSAGE_WINDOW);
     }
 
-    public Boolean isSendMessageButtonExists(){
-        return elementExists(By.cssSelector(".gU [data-tooltip]"));
+    public Boolean isSendMessageButtonExists() {
+        return elementExists(LOC_MESSAGE_SEND_BUTTON);
     }
 
 
