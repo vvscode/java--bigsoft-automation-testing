@@ -1,16 +1,20 @@
 package com.autotesting.pages;
 
+import com.autotesting.service.ServiceLayer;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class Page {
-    protected WebDriver driver;
+    protected ServiceLayer service;
 
-    public Page(WebDriver drv){
-        driver = drv;
+    public Page(){
+        service = ServiceLayer.getInstance();
     }
 
     public Boolean elementExists(By by){
-        return driver.findElements(by).size() > 0;
+        return service.elementExists(by);
+    }
+
+    public String getCurrentUrl() {
+        return service.getCurrentUrl();
     }
 }

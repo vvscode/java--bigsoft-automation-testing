@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import com.autotesting.pages.gmail.GmailPage;
 import com.autotesting.pages.tutby.TutByMainPage;
+import com.autotesting.service.WPDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -13,12 +14,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class TestClass {
-    private static ChromeDriverService service;
-    private static WebDriver driver;
     private static TutByMainPage tutByMainPage;
     private static GmailPage gmailPage;
 
-    private static final String PATH_TO_CHROMEDRIVER = "resource//chromedriver.exe";
+
     private static final String TUTBY_LOGIN_NAME = "autotest1";
     private static final String TUTBY_LOGIN_PASSWORD = "autotest12";
 
@@ -34,14 +33,8 @@ public class TestClass {
 
     @BeforeClass
     public static void createAndStartService() throws IOException {
-        service = new ChromeDriverService.Builder()
-                .usingChromeDriverExecutable(new File(PATH_TO_CHROMEDRIVER))
-                .usingAnyFreePort()
-                .build();
-        service.start();
-        driver = new ChromeDriver(service);
-        tutByMainPage = new TutByMainPage(driver);
-        gmailPage = new GmailPage(driver);
+        tutByMainPage = new TutByMainPage();
+        gmailPage = new GmailPage();
     }
 
     @Test
@@ -66,7 +59,7 @@ public class TestClass {
     @Test(dependsOnMethods = {"tutByMailLinkExistsTest"})
     public void tutByMailLinkRedirectToGmailTest() throws InterruptedException {
         tutByMainPage.openMail();
-        String currentUrl = driver.getCurrentUrl();
+        String currentUrl = tutByMainPage.getCurrentUrl();
         Assert.assertTrue(currentUrl.contains("mail.google.com"), "Mail page didn't use gmail");
     }
 
@@ -118,7 +111,6 @@ public class TestClass {
 
     @AfterClass
     public static void createAndStopService() {
-        driver.quit();
-        service.stop();
+        WPDriver.stopDriver();
     }
 }

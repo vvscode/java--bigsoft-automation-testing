@@ -24,13 +24,9 @@ public class GmailPage extends Page {
     protected static By LOC_MAIL_GRID_SELECT_ALL = By.cssSelector("[aria-label=Выбрать] [role=checkbox]");
     protected static By LOC_MAIL_GRID_REMOVER = By.cssSelector("[aria-label=Удалить]");
 
-    public GmailPage(WebDriver drv) {
-        super(drv);
-    }
-
     public void openNewMessageWindow() {
         if (!isNewMessageWindowExists()) {
-            WebElement newMessageButton = driver.findElement(LOC_NEW_MESSAGE_BUTTON);
+            WebElement newMessageButton = service.findElement(LOC_NEW_MESSAGE_BUTTON);
             newMessageButton.click();
             try {
                 Thread.sleep(2000);
@@ -44,7 +40,7 @@ public class GmailPage extends Page {
     }
 
     public void closeNewMEssageWindow() {
-        driver.findElement(LOC_NEW_MESSAGE_WINDOW_CLOSER).click();
+        service.findElement(LOC_NEW_MESSAGE_WINDOW_CLOSER).click();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -54,15 +50,15 @@ public class GmailPage extends Page {
 
     public void sendNewMessage(String to, String subj, String body) {
         openNewMessageWindow();
-        WebElement mailTo = driver.findElement(LOC_MESSAGE_TO_INPUT);
-        WebElement subject = driver.findElement(LOC_MESSAGE_SUBJECT_INPUT);
-        WebElement text = driver.findElement(LOC_MESSAGE_BODY_INPUT);
+        WebElement mailTo = service.findElement(LOC_MESSAGE_TO_INPUT);
+        WebElement subject = service.findElement(LOC_MESSAGE_SUBJECT_INPUT);
+        WebElement text = service.findElement(LOC_MESSAGE_BODY_INPUT);
 
         mailTo.sendKeys(to);
         subject.sendKeys(subj);
         text.sendKeys(body);
 
-        driver.findElement(LOC_MESSAGE_SEND_BUTTON).click();
+        service.findElement(LOC_MESSAGE_SEND_BUTTON).click();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -71,22 +67,22 @@ public class GmailPage extends Page {
     }
 
     public Boolean isAlertBoxExists() {
-        List<WebElement> alertDialog = driver.findElements(LOC_ALERT_DIALOG);
+        List<WebElement> alertDialog = service.findElements(LOC_ALERT_DIALOG);
         return alertDialog.size() > 0;
     }
 
     public void closeAlert() throws InterruptedException {
         if (isAlertBoxExists()) {
-            WebElement okButton = driver.findElement(LOC_ALERT_DIALOG_OK_BUTTON);
+            WebElement okButton = service.findElement(LOC_ALERT_DIALOG_OK_BUTTON);
             okButton.click();
             Thread.sleep(2000);
         }
     }
 
     public Boolean isMailExists(String subj) {
-        driver.navigate().refresh();
+        service.refreshPage();
 
-        List<WebElement> mailList = driver.findElements(LOC_MAIL_GRID_ITEM);
+        List<WebElement> mailList = service.findElements(LOC_MAIL_GRID_ITEM);
 
         Boolean mailExistsFlag = false;
         Boolean checkResult;
@@ -104,22 +100,22 @@ public class GmailPage extends Page {
     }
 
     public Integer getMailsCount() {
-        List<WebElement> mailList = driver.findElements(LOC_MAIL_GRID_ITEM);
+        List<WebElement> mailList = service.findElements(LOC_MAIL_GRID_ITEM);
         return mailList.size();
     }
 
     public Integer getCheckedMailsCount() {
-        List<WebElement> checkedMails = driver.findElements(LOC_MAIL_GRID_CHECKED_ITEM);
+        List<WebElement> checkedMails = service.findElements(LOC_MAIL_GRID_CHECKED_ITEM);
         return checkedMails.size();
     }
 
     public void selectAllMessages() {
-        WebElement selector = driver.findElement(LOC_MAIL_GRID_SELECT_ALL);
+        WebElement selector = service.findElement(LOC_MAIL_GRID_SELECT_ALL);
         selector.click();
     }
 
     public void removeMessages() {
-        WebElement remover = driver.findElement(LOC_MAIL_GRID_REMOVER);
+        WebElement remover = service.findElement(LOC_MAIL_GRID_REMOVER);
         remover.click();
         try {
             Thread.sleep(2000);
