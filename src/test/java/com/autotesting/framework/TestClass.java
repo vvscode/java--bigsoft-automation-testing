@@ -1,14 +1,9 @@
 package com.autotesting.framework;
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import com.autotesting.pages.gmail.GmailPage;
 import com.autotesting.pages.tutby.TutByMainPage;
 import com.autotesting.service.ServiceLayer;
-import com.autotesting.service.WPDriver;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -19,10 +14,8 @@ public class TestClass {
     private static TutByMainPage tutByMainPage;
     private static GmailPage gmailPage;
 
-
     private static final String TUTBY_LOGIN_NAME = "autotest1";
     private static final String TUTBY_LOGIN_PASSWORD = "autotest12";
-
     private static final String TUTBY_SELF_MAIL = TUTBY_LOGIN_NAME + "@tut.by";
 
     private String uniqueMarker;
@@ -122,6 +115,6 @@ public class TestClass {
 
     @AfterClass
     public static void createAndStopService() {
-        WPDriver.stopDriver();
+        service.stopService();
     }
 }

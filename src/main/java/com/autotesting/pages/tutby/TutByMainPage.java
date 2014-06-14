@@ -25,7 +25,7 @@ public class TutByMainPage extends Page {
         service.findElement(LOC_LOGIN_INPUT).sendKeys(userName);
         service.findElement(LOC_PASSWORD_INPUT).sendKeys(password);
         service.findElement(LOC_SUBMIT_LOGIN_FORM_BUTTON).click();
-        Thread.sleep(2000);
+        service.sleep(2);
     }
 
     public Boolean isLoggedIn() {
@@ -36,7 +36,7 @@ public class TutByMainPage extends Page {
         List<WebElement> closeModalPopUp = service.findElements(LOC_GEOMESSAGE_WINDOW_CLOSER);
         if (closeModalPopUp.size() > 0) {
             closeModalPopUp.get(0).click();
-            Thread.sleep(2000);
+            service.sleep(2);
         }
     }
 
@@ -44,14 +44,14 @@ public class TutByMainPage extends Page {
         WebElement loginLink = service.findElement(LOC_LOGGED_MENU_LINK);
         if (!loginLink.getAttribute("class").contains("active")) {
             loginLink.click();
-            Thread.sleep(500);
+            service.sleep(1);
         }
     }
 
     public void openMail() throws InterruptedException {
         openLoggedMenu();
         service.findElement(LOC_MAIL_LINK).click();
-        service.switchToLastWindow();
+        service.switchToLastWindow().sleep(5);
     }
 
     public Boolean isGeomessageExists(){

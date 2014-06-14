@@ -26,13 +26,8 @@ public class GmailPage extends Page {
 
     public void openNewMessageWindow() {
         if (!isNewMessageWindowExists()) {
-            WebElement newMessageButton = service.findElement(LOC_NEW_MESSAGE_BUTTON);
-            newMessageButton.click();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            service.findElement(LOC_NEW_MESSAGE_BUTTON).click();
+            service.sleep(2);
         } else {
             closeNewMEssageWindow();
             openNewMessageWindow();
@@ -41,11 +36,7 @@ public class GmailPage extends Page {
 
     public void closeNewMEssageWindow() {
         service.findElement(LOC_NEW_MESSAGE_WINDOW_CLOSER).click();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        service.sleep(2);
     }
 
     public void sendNewMessage(String to, String subj, String body) {
@@ -59,11 +50,7 @@ public class GmailPage extends Page {
         text.sendKeys(body);
 
         service.findElement(LOC_MESSAGE_SEND_BUTTON).click();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        service.sleep(2);
     }
 
     public Boolean isAlertBoxExists() {
@@ -73,9 +60,8 @@ public class GmailPage extends Page {
 
     public void closeAlert() throws InterruptedException {
         if (isAlertBoxExists()) {
-            WebElement okButton = service.findElement(LOC_ALERT_DIALOG_OK_BUTTON);
-            okButton.click();
-            Thread.sleep(2000);
+            service.findElement(LOC_ALERT_DIALOG_OK_BUTTON).click();
+            service.sleep(2);
         }
     }
 
@@ -115,13 +101,8 @@ public class GmailPage extends Page {
     }
 
     public void removeMessages() {
-        WebElement remover = service.findElement(LOC_MAIL_GRID_REMOVER);
-        remover.click();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        service.findElement(LOC_MAIL_GRID_REMOVER).click();
+        service.sleep(2);
     }
 
     public Boolean isCreateMessageButtonExists() {

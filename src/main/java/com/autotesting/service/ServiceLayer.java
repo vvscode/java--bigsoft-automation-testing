@@ -81,5 +81,15 @@ public class ServiceLayer {
         logger.debug(msg);
         return this;
     }
+
+
+    public ServiceLayer sleep(Integer seconds){
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
 }
 
