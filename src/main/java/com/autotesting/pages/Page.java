@@ -4,17 +4,21 @@ import com.autotesting.service.ServiceLayer;
 import org.openqa.selenium.By;
 
 public class Page {
-    protected ServiceLayer service;
+    protected ServiceLayer service = ServiceLayer.getInstance();
 
     public Page(){
-        service = ServiceLayer.getInstance();
+
     }
 
     public Boolean elementExists(By by){
-        return service.elementExists(by);
+        Boolean result = service.elementExists(by);
+        service.debug(String.format("elementExists: El:[%s] Result[%b]", by.toString(), result));
+        return result;
     }
 
     public String getCurrentUrl() {
-        return service.getCurrentUrl();
+        String url = service.getCurrentUrl();
+        service.debug(String.format("getCurrentUrl: %s", url));
+        return url;
     }
 }

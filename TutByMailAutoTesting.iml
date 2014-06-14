@@ -25,6 +25,8 @@
     <orderEntry type="library" name="TutByMailAutoTesting: org.apache.httpcomponents:httpcore:4.1.2" level="project" />
     <orderEntry type="library" name="TutByMailAutoTesting: commons-logging:commons-logging:1.1.1" level="project" />
     <orderEntry type="library" name="TutByMailAutoTesting: commons-codec:commons-codec:1.4" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.7" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.testng:testng:6.8.8" level="project" />
     <orderEntry type="library" name="Maven: org.beanshell:bsh:2.0b4" level="project" />
     <orderEntry type="library" name="Maven: com.beust:jcommander:1.27" level="project" />
